@@ -1,0 +1,195 @@
+" 设置前导键
+let mapleader=","
+" 显示当前模式
+set showmode
+" 共享系统粘贴板
+set clipborad=unamed
+" 打开行号
+set number
+" 打开相对行号
+" set relativenumber
+" 设置命令历史记录条数
+set history=2000
+" 关闭兼容vi
+set nocompatible
+" 开启语法高亮功能
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+syntax on
+" 模式搜索实时预览,增量搜索
+set incsearch
+" 设置搜索高亮
+set hlsearch
+" 忽略大小写 (该命令配合smartcase使用较好，否则不要开启)
+set ignorecase
+" 模式查找时智能忽略大小写
+set smartcase
+" vim自身命令行模式智能补全
+set wildmenu
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 高亮显示当前行/列
+set cursorline
+"set cursorcolumn
+" 禁止折行
+set nowrap
+" 将制表符扩展为空格
+set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=8
+" 设置格式化时制表符占用空格数
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+" 基于缩进或语法进行代码折叠
+set foldmethod=indent
+set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+
+" 暂时取消搜索高亮快捷键
+nnoremap <silent> <Leader>sc :<C-u>nohlsearch<CR><C-l>
+
+" 移动相关
+" 前一个缓冲区
+nnoremap <silent> [b :w<CR>:bprevious<CR>
+" 后一个缓冲区
+nnoremap <silent> ]b :w<CR>:bnext<CR>
+" 定义快捷键到行首和行尾
+map H ^
+map L $
+" 定义快速跳转
+nmap <Leader>t <C-]>
+" 定义快速跳转回退
+nmap <Leader>T <C-t>
+" 标签页后退 ---标签页前进是gt
+nmap gn gt
+nmap gp gT
+
+" 文件操作相关
+" 定义快捷键关闭当前分割窗口
+nmap <Leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+
+" insert mode shortcut
+inoremap  <C-h>   <Left>
+inoremap  <C-j>   <Down>
+inoremap  <C-k>   <Up>
+inoremap  <C-l>   <Right>
+inoremap  <C-d>   <DELETE>
+
+" 窗口操作相关
+nnoremap <Leader>ww <C-W>w
+nnoremap <Leader>wd <C-W>c
+nnoremap <Leader>wj <C-W>j
+nnoremap <Leader>wk <C-W>k
+nnoremap <Leader>wh <C-W>h
+nnoremap <Leader>wl <C-W>l
+nnoremap <Leader>ws <C-W>s
+nnoremap <Leader>w- <C-W>s
+nnoremap <Leader>wv <C-W>v
+nnoremap <Leader>w\| <C-W>v
+
+" 使用idea内部功能
+" copy operation
+nnoremap <Leader>c :action $Copy<CR>
+" paste operation
+nnoremap <Leader>v :action $Paste<CR>
+" cut operation
+nnoremap <Leader>x :action $Cut<CR>
+" Select All
+nnoremap <Leader>a :action $SelectAll<CR>
+" reformat code
+nnoremap <Leader>f :action ReformatCode<CR>
+" New File
+nnoremap <Leader>n :action NewFile<CR>
+" 找到usage
+nnoremap <Leader>u :action FindUsages<CR>
+" 调用idea的replace操作
+nnoremap <Leader>; :action Replace<CR>
+" go to class
+nnoremap <Leader>gc :action GotoClass<CR>
+" go to action
+nnoremap <Leader>ga :action GotoAction<CR>
+" run
+nnoremap <Leader>r :action RunClass<CR>
+" 显示当前文件的文件路径
+nnoremap <Leader>fp :action ShowFilePath<CR>
+" 隐藏激活窗口
+nnoremap <Leader>h :action HideActiveWindow<CR>
+
+" 中英文自动切换
+set keep-english-in-normal-and-restore-in-insert
+
+" other vim plugins
+" comment plugin
+set commentary
+" surround plugin
+set surround
+" easymotion
+set easymotion
+
+" 一些有用的快捷键，但是没做映射
+" open project file tree ---------- alt + 1
+" open terminal window   ---------- alt + F12
+
+# 2021年11月27日10时21分5秒
+" 以下是一些vim使用方法 -----------------
+" viw  vaw  ciw caw diw daw vi' va' ci' ca' di' da' vi( va( ci( ca( di( da( ...
+
+" ###### vim宏：normal模式下 qr 带表给r标记宏 然后vim操作。  @r 重复一次宏 10@r重复10次宏 注意（idea的提示功能干扰，可以在字符串里面先写好然后在复制黏贴）
+
+" ###### 7.2 替换
+"           :s/old/new - 用new替换当前行第一个old。
+"           :s/old/new/g - 用new替换当前行所有的old。
+"           :n1,n2s/old/new/g - 用new替换文件n1行到n2行所有的old。
+"           :%s/old/new/g - 用new替换文件中所有的old。
+"           :%s/^/xxx/g - 在每一行的行首插入xxx，^表示行首。
+"           :%s/$/xxx/g - 在每一行的行尾插入xxx，$表示行尾。
+"           有替换命令末尾加上c，每个替换都将需要用户确认。 如：%s/old/new/gc，加上i则忽略大小写(ignore)。
+"           有一种比替换更灵活的方式，它是匹配到某个模式后执行某种命令，
+"           法为 :[range]g/pattern/command
+"           如 :%g/^ xyz/normal dd。
+"           示对于以一个空格和xyz开头的行执行normal模式下的dd命令。
+"           于range的规定为：
+"           果不指定range，则表示当前行。
+"           ,n: 从m行到n行。
+"           : 最开始一行（可能是这样）。
+"           $: 最后一行
+"           .: 当前行
+"           %: 所有行
+
+" 以上是一些vim使用方法 -----------------
+" 以下是自定义快捷键-----------------
+
+" 复制单个单词到寄存器a并标记到o (使用快捷键 空格+y)
+" 注释:（mo => 标记o）,(+yiw =>复制当前单词到系统剪切板),("a => 寄存器a) ,("ayiw => 复制当前单词到寄存器a)
+nnoremap <Leader>y mo"+yiw"ayiw
+
+" 剪切单个单词到寄存器a并标记到o (使用快捷键 空格+x)
+" 注释:（mo => 标记o[标记为的是使用''来回跳标记]）,(+yiw =>复制当前单词到系统剪切板),("a => 寄存器a) ,("ayiw => 复制当前单词到寄存器a),(diw =>删除当前单词)
+nnoremap <Leader>x mo"+yiw"ayiwdiw
+
+" 删除单个字符串并黏贴寄存器a的内容并来回标记o和p  (使用快捷键 空格+v)
+" 注释：（mp => 标记p）,(viw => 选中当前单词),（"a => 寄存器a）,(p => 将寄存器a内容黏贴到选中的单词),（'o => 跳回标记o）,('p =>跳回标记p[标记为的是使用''来回跳标记])
+nnoremap <Leader>v mpviw"ap'o'p
+
+" idea内置快捷键alt+F1 (使用快捷键 空格+m)
+nnoremap <Leader>m :action SelectIn<CR>
+
+" idea内置快捷键control+E (使用快捷键 空格+e)
+nnoremap <Leader>e :action RecentFiles<CR>
+
+"生成get set方法  (使用快捷键 空格+cc)
+nnoremap <Leader>cc :action Generate<CR>
+
+" shift+h--zz(向上翻页)(使用快捷键 空格+h)
+nnoremap <Leader>h <S-h>zz
+
+" shift+l--zz(向下翻页)(使用快捷键 空格+l)
+nnoremap <Leader>l <S-l>zz
+
+" 以上是自定义快捷键-----------------
