@@ -2,14 +2,19 @@
 let mapleader=","
 " 显示当前模式
 set showmode
+" 显示匹配的括号
+set showmatch
+" 在状态行显示命令
+set showcmd
 " 共享系统粘贴板
 set clipborad=unamed
-" 打开行号
+set clipborad+=ideaput
+" 打开行
 set number
 " 打开相对行号
-" set relativenumber
+set relativenumber
 " 设置命令历史记录条数
-set history=2000
+set history=20000
 " 关闭兼容vi
 set nocompatible
 " 开启语法高亮功能
@@ -28,6 +33,7 @@ set smartcase
 set wildmenu
 " 总是显示状态栏
 set laststatus=2
+set scrolloff=3
 " 显示光标当前位置
 set ruler
 " 高亮显示当前行/列
@@ -48,9 +54,10 @@ set foldmethod=indent
 set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
-
+" 启用multi cursor
+set multiple-cursor
 " 暂时取消搜索高亮快捷键
-nnoremap <silent> <Leader>sc :<C-u>nohlsearch<CR><C-l>
+nnoremap <silent> <Leader>sc :nohlsearch<CR>
 
 " 移动相关
 " 前一个缓冲区
@@ -67,6 +74,11 @@ nmap <Leader>T <C-t>
 " 标签页后退 ---标签页前进是gt
 nmap gn gt
 nmap gp gT
+" E和R是为了保持与Chrome中的SurfingKeys的键位一致
+noremap E gT
+noremap R gt
+
+inoremap jk <ESC>
 
 " 文件操作相关
 " 定义快捷键关闭当前分割窗口
@@ -74,12 +86,17 @@ nmap <Leader>q :q<CR>
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 
+" 重新加载.ideavimrc文件
+noremap \r <ESC>:source ~/.ideavimrc<CR>
+
 " insert mode shortcut
-inoremap  <C-h>   <Left>
-inoremap  <C-j>   <Down>
-inoremap  <C-k>   <Up>
-inoremap  <C-l>   <Right>
-inoremap  <C-d>   <DELETE>
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <DELETE>
 
 " 窗口操作相关
 nnoremap <Leader>ww <C-W>w
@@ -92,6 +109,8 @@ nnoremap <Leader>ws <C-W>s
 nnoremap <Leader>w- <C-W>s
 nnoremap <Leader>wv <C-W>v
 nnoremap <Leader>w\| <C-W>v
+nnoremap <Leader>vp <ESC>:vsplit<CR>
+nnoremap <Leader>sp <ESC>:split<CR>
 
 " 使用idea内部功能
 " copy operation
