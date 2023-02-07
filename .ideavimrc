@@ -1,13 +1,17 @@
 " 设置前导键
 let mapleader=","
+
+set NERDTree
 " 显示当前模式
 set showmode
 " 显示匹配的括号
 set showmatch
 " 在状态行显示命令
 set showcmd
+set showtabline=2
+set laststatus=2
 " 共享系统粘贴板
-set clipborad=unamed
+set clipborad+=unnamed
 set clipborad+=ideaput
 " 打开行
 set number
@@ -32,23 +36,28 @@ set smartcase
 " vim自身命令行模式智能补全
 set wildmenu
 " 总是显示状态栏
-set laststatus=2
 set scrolloff=3
 " 显示光标当前位置
 set ruler
 " 高亮显示当前行/列
 set cursorline
-"set cursorcolumn
+set cursorcolumn
 " 禁止折行
 set nowrap
 " 将制表符扩展为空格
 set expandtab
+" 智能连接
+set ideajoin
 " 设置编辑时制表符占用空格数
-set tabstop=8
+set tabstop=4
 " 设置格式化时制表符占用空格数
 set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
 set softtabstop=4
+" 下一行和上一行格式相同
+set autoindent
+set cindent
+
 " 基于缩进或语法进行代码折叠
 set foldmethod=indent
 set foldmethod=syntax
@@ -56,8 +65,13 @@ set foldmethod=syntax
 set nofoldenable
 " 启用multi cursor
 set multiple-cursor
+
+set which-key
+set timeoutlen=5000
+set sneak
+set quickscope
 " 暂时取消搜索高亮快捷键
-nnoremap <silent> <Leader>sc :nohlsearch<CR>
+nnoremap <Leader>sc :nohlsearch<CR>
 
 " 移动相关
 " 前一个缓冲区
@@ -65,8 +79,8 @@ nnoremap <silent> [b :w<CR>:bprevious<CR>
 " 后一个缓冲区
 nnoremap <silent> ]b :w<CR>:bnext<CR>
 " 定义快捷键到行首和行尾
-map H ^
-map L $
+" map H ^
+" map L $
 " 定义快速跳转
 nmap <Leader>t <C-]>
 " 定义快速跳转回退
@@ -75,25 +89,36 @@ nmap <Leader>T <C-t>
 nmap gn gt
 nmap gp gT
 " E和R是为了保持与Chrome中的SurfingKeys的键位一致
-noremap E gT
-noremap R gt
+" noremap E gT
+" noremap R gt
 
+" 插入模式下kj回到normal模式
 inoremap jk <ESC>
+inoremap jj <ESC>
+
+" 切换中文输入法，不知道在ubuntu里面可不可以
+set keep-english-in-normal
+set keep-english-in-normal-and-restore-in-insert
+
+" 打开所有折叠
+noremap zr zR
+
+" 关闭所有折叠
+noremap zm zM
 
 " 文件操作相关
 " 定义快捷键关闭当前分割窗口
-nmap <Leader>q :q<CR>
+" nmap <Leader>q :q<CR>
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 
 " 重新加载.ideavimrc文件
 noremap \r <ESC>:source ~/.ideavimrc<CR>
 
-" insert mode shortcut
-inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
+inoremap <C-h> <left>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-d> <DELETE>
@@ -114,31 +139,39 @@ nnoremap <Leader>sp <ESC>:split<CR>
 
 " 使用idea内部功能
 " copy operation
-nnoremap <Leader>c :action $Copy<CR>
+" nnoremap <Leader>c :action $Copy<CR>
 " paste operation
-nnoremap <Leader>v :action $Paste<CR>
+" nnoremap <Leader>v :action PasteMultiple<CR>
 " cut operation
-nnoremap <Leader>x :action $Cut<CR>
+" nnoremap <Leader>x :action $Cut<CR>
 " Select All
 nnoremap <Leader>a :action $SelectAll<CR>
 " reformat code
 nnoremap <Leader>f :action ReformatCode<CR>
 " New File
-nnoremap <Leader>n :action NewFile<CR>
+nnoremap <Leader>np :action NewPythonFile<CR>
 " 找到usage
 nnoremap <Leader>u :action FindUsages<CR>
 " 调用idea的replace操作
 nnoremap <Leader>; :action Replace<CR>
 " go to class
-nnoremap <Leader>gc :action GotoClass<CR>
+nnoremap gc :action GotoClass<CR>
 " go to action
-nnoremap <Leader>ga :action GotoAction<CR>
+nnoremap ga :action GotoAction<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gd :action GotToDeclaration<CR>
+nnoremap gs :action GotToSuperMethod<CR>
+nnoremap gc :action GotoTest<CR>
+nnoremap gb :action Back<CR>
+nnoremap gf :action Forward<CR>
 " run
 nnoremap <Leader>r :action RunClass<CR>
 " 显示当前文件的文件路径
 nnoremap <Leader>fp :action ShowFilePath<CR>
-" 隐藏激活窗口
+" 隐藏激活窗口----------
 nnoremap <Leader>h :action HideActiveWindow<CR>
+" 激活PythonConsole工具窗口----------
+nnoremap <Leader>t :action ActivatePythonConsoleToolWindow<CR>
 
 " 中英文自动切换
 set keep-english-in-normal-and-restore-in-insert
@@ -212,3 +245,98 @@ nnoremap <Leader>h <S-h>zz
 nnoremap <Leader>l <S-l>zz
 
 " 以上是自定义快捷键-----------------
+
+" Essential of Remap https://towardsdatascience.com/the-essential-ideavim-remaps-291d4cd3971b ----------
+nnoremap \e :e ~/.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+#nnoremap <TAB> :action PreviousTab<CR>
+#nnoremap <s-TAB> :action NextTab<CR>
+
+nnoremap <c-\> :action SplitVertically<CR>
+nnoremap <c--> :action SplitHorizontally<CR>
+nnoremap <c-=> :action Unsplit<CR>
+nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
+
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
+
+vnoremap < <gv
+vnoremap > >gv
+nnoremap [[ :action MethodUp<CR>
+nnoremap ]] :action MethodDown<CR>
+nnoremap zc :action CollapseRegion<CR>
+nnoremap zo :action ExpandRegion<CR>
+nnoremap <leader>zc :action CollapseAllRegions<CR>
+nnoremap <leader>zo :action ExpandAllRegions<CR>
+nnoremap <leader>c :action CommentByLineComment<CR>
+
+""" Running and Debugging
+nnoremap <leader>r :action ContextRun<CR>
+nnoremap <leader>c :action RunClass<CR>
+nnoremap <leader>f :action ChooseRunConfiguration<CR>
+" nnoremap <leader>t :action ActivateRunToolWindow<CR>
+nnoremap <leader>u :action Rerun<CR>
+nnoremap <leader>f :action RerunFailedTests<CR>
+nnoremap <leader>b :action ToggleLineBreakpoint<CR>
+nnoremap <leader>d :action ContextDebug<CR>
+nnoremap <leader>n :action ActivateDebugToolWindow<CR>
+
+" 输入法的问题 2022.12.29
+" set keep-english-in-normal 开启输入法自动切换功能
+" set keep-english-in-normal-and-restore-in-insert 回到insert模式时恢复输入法
+" set nokeep-english-in-normal-and-restore-in-insert 保留输入法自动切换功能，但是回到insert模式不恢复输入法
+" set nokeep-english-in-normal 关闭输入法自动切换功能
+"
+" 支持在ideavim.rc中通过以下三个变量控制插件行为：
+" 	let keep_input_source_in_insert=[input source id] 设置insert模式使用到非英文输入法
+" 	let keep_input_source_in_normal=[input source id] 设置normal模式使用到输入英文到输入法
+" 	注意：上面两个变量仅在windows和macOS中有效
+"
+" 	let context_aware=1 进入insert模式时根据上下文判断是否恢复输入法，0禁用，1启用
+" 	注意：仅在set keep-english-in-normal-and-restore-in-insert时有意义
+"
+"set keep-english-in-normal
+"set nokeep-english-in-normal-and-restore-in-insert
+
+" 定义运行快捷键
+nnoremap <leader>r :action Run<CR>
+
+"跳转下个报错处
+noremap <leader>ne :action GotoNextError<CR>
+"跳转上个报错处
+noremap <leader>pe :action GotoPreviousError<CR>
+"^$符号太难按了
+map gh ^
+map gl $
+"代码提示
+"这种方法好像是不管事儿 2023年2月4日12时44分28秒
+"imap <C-n> <ESC> :action HippieCompletion<CR>a
+"imap <C-p> <ESC> :action HippieBackwardCompletion<CR>a
+"imap <c-p> <Action>(HippieCompletion)
+"imap <c-n> <Action>(HippieBackwardCompletion)
+"
+" ===
+" === NERDTree
+" ===
+""""Usage""""
+" o <key> open menu in NERDTree
+" O <key> Recursively open the selected directory
+" i <key> Open selected file in a split window (horizontal)
+" gi <key> Same as i, but leave the cursor on the NERDTree
+" s <key> Open selected file in a new vsplit
+" gs <key> Same as s, but leave the cursor on the NERDTree
+" m <key> open menu in NERDTree
+" A <key> Zoom (maximize/minimize) the NERDTree window"
+" K <key> Jump up inside directories at the current tree depth
+" J <key> Jump down inside directories at the current tree depth
+" x <key> Close the current nodes parent (not close flie)
+" X <key> Recursively close all children of the current node (not close flie)
+""""End""""
+" open NERDTree
+nnoremap <leader>q :NERDTree<CR>
+" close NERDTree
+nnoremap q :NERDTreeClose<CR>
+" 弹出文件结构信息(相当于显示大纲)
+nnoremap <leader>o :action FileStructurePopup<CR>
+
