@@ -2,6 +2,7 @@
 let mapleader=","
 
 set NERDTree
+Plug 'https://github.com/preservim/nerdtree'
 " 显示当前模式
 set showmode
 " 显示匹配的括号
@@ -11,8 +12,8 @@ set showcmd
 set showtabline=2
 set laststatus=2
 " 共享系统粘贴板
-set clipborad+=unnamed
-set clipborad+=ideaput
+set clipboard+=unnamed
+set clipboard+=ideaput
 " 打开行
 set number
 " 打开相对行号
@@ -67,9 +68,13 @@ set nofoldenable
 set multiple-cursor
 
 set which-key
+set notimeout
 set timeoutlen=5000
 set sneak
 set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 " 暂时取消搜索高亮快捷键
 nnoremap <Leader>sc :nohlsearch<CR>
 
@@ -93,12 +98,11 @@ nmap gp gT
 " noremap R gt
 
 " 插入模式下kj回到normal模式
-inoremap jk <ESC>
-inoremap jj <ESC>
+" inoremap .. <ESC>
 
 " 切换中文输入法，不知道在ubuntu里面可不可以
 set keep-english-in-normal
-set keep-english-in-normal-and-restore-in-insert
+" set keep-english-in-normal-and-restore-in-insert
 
 " 打开所有折叠
 noremap zr zR
@@ -173,9 +177,6 @@ nnoremap <Leader>h :action HideActiveWindow<CR>
 " 激活PythonConsole工具窗口----------
 nnoremap <Leader>t :action ActivatePythonConsoleToolWindow<CR>
 
-" 中英文自动切换
-set keep-english-in-normal-and-restore-in-insert
-
 " other vim plugins
 " comment plugin
 set commentary
@@ -183,6 +184,13 @@ set commentary
 set surround
 " easymotion
 set easymotion
+" easymotion前缀 leader leader
+map <Leader> <Plug>(easymotion-prefix)
+" 其他键位绑定
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
 
 " 一些有用的快捷键，但是没做映射
 " open project file tree ---------- alt + 1
@@ -239,10 +247,10 @@ nnoremap <Leader>e :action RecentFiles<CR>
 nnoremap <Leader>cc :action Generate<CR>
 
 " shift+h--zz(向上翻页)(使用快捷键 空格+h)
-nnoremap <Leader>h <S-h>zz
+" nnoremap <Leader>h <S-h>zz
 
 " shift+l--zz(向下翻页)(使用快捷键 空格+l)
-nnoremap <Leader>l <S-l>zz
+" nnoremap <Leader>l <S-l>zz
 
 " 以上是自定义快捷键-----------------
 
@@ -274,10 +282,10 @@ nnoremap <leader>c :action CommentByLineComment<CR>
 """ Running and Debugging
 nnoremap <leader>r :action ContextRun<CR>
 nnoremap <leader>c :action RunClass<CR>
-nnoremap <leader>f :action ChooseRunConfiguration<CR>
+" nnoremap <leader>f :action ChooseRunConfiguration<CR>
 " nnoremap <leader>t :action ActivateRunToolWindow<CR>
 nnoremap <leader>u :action Rerun<CR>
-nnoremap <leader>f :action RerunFailedTests<CR>
+" nnoremap <leader>f :action RerunFailedTests<CR>
 nnoremap <leader>b :action ToggleLineBreakpoint<CR>
 nnoremap <leader>d :action ContextDebug<CR>
 nnoremap <leader>n :action ActivateDebugToolWindow<CR>
@@ -296,8 +304,8 @@ nnoremap <leader>n :action ActivateDebugToolWindow<CR>
 " 	let context_aware=1 进入insert模式时根据上下文判断是否恢复输入法，0禁用，1启用
 " 	注意：仅在set keep-english-in-normal-and-restore-in-insert时有意义
 "
-"set keep-english-in-normal
-"set nokeep-english-in-normal-and-restore-in-insert
+set keep-english-in-normal
+set nokeep-english-in-normal-and-restore-in-insert
 
 " 定义运行快捷键
 nnoremap <leader>r :action Run<CR>
@@ -340,3 +348,16 @@ nnoremap q :NERDTreeClose<CR>
 " 弹出文件结构信息(相当于显示大纲)
 nnoremap <leader>o :action FileStructurePopup<CR>
 
+nnoremap <leader>gx0 :action CloseAllToTheLeft<CR>
+nnoremap <leader>gx$ :action CloseAllToTheRight<CR>
+
+" KJump configuration
+nmap <leader>ss :action KJumpAction<cr>
+nmap <leader>dd :action KJumpAction.Word2<cr>
+nmap <leader>ll :action KJumpAction.Line<cr>
+
+set statusline=%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]\ %=[%l,%c%V\ %p%%\ %P\ %LLs]
+
+" 处理关于Ataman快捷键的问题
+nnoremap <leader> :action LeaderAction<cr>
+vnoremap <leader> :action LeaderAction<cr>
