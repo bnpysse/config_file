@@ -16,6 +16,8 @@ set clipboard+=unnamed
 set clipboard+=ideaput
 " 打开行
 set number
+" 关闭k响铃
+set visualbell
 " 打开相对行号
 set relativenumber
 " 设置命令历史记录条数
@@ -58,6 +60,8 @@ set softtabstop=4
 " 下一行和上一行格式相同
 set autoindent
 set cindent
+" Highlighted Yank
+set highlightedyank
 
 " 基于缩进或语法进行代码折叠
 set foldmethod=indent
@@ -65,15 +69,16 @@ set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 " 启用multi cursor
-set multiple-cursor
+set multiple-cursors
 
+set matchit
 set which-key
 set notimeout
 set timeoutlen=5000
 set sneak
-set quickscope
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+"set quickscope
+"let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+"let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 " 暂时取消搜索高亮快捷键
 nnoremap <Leader>sc :nohlsearch<CR>
@@ -150,10 +155,7 @@ nnoremap <Leader>sp <ESC>:split<CR>
 " nnoremap <Leader>x :action $Cut<CR>
 " Select All
 nnoremap <Leader>a :action $SelectAll<CR>
-" reformat code
-nnoremap <Leader>f :action ReformatCode<CR>
 " New File
-nnoremap <Leader>np :action NewPythonFile<CR>
 " 找到usage
 nnoremap <Leader>u :action FindUsages<CR>
 " 调用idea的replace操作
@@ -169,11 +171,17 @@ nnoremap gc :action GotoTest<CR>
 nnoremap gb :action Back<CR>
 nnoremap gf :action Forward<CR>
 " run
-nnoremap <Leader>r :action RunClass<CR>
+" nnoremap <Leader>r :action RunClass<CR>
+" 文件相关的内容
 " 显示当前文件的文件路径
 nnoremap <Leader>fp :action ShowFilePath<CR>
+nnoremap <Leader>ff :action ReformatCode<CR>
+nnoremap <Leader>fr :action RecentFiles<CR>
+nnoremap <Leader>fl :action RecentLocations<CR>
+nnoremap <Leader>fs :action NewScratchFile<CR>
+
 " 隐藏激活窗口----------
-nnoremap <Leader>h :action HideActiveWindow<CR>
+" nnoremap <Leader>h :action HideActiveWindow<CR>
 " 激活PythonConsole工具窗口----------
 nnoremap <Leader>t :action ActivatePythonConsoleToolWindow<CR>
 
@@ -187,10 +195,10 @@ set easymotion
 " easymotion前缀 leader leader
 map <Leader> <Plug>(easymotion-prefix)
 " 其他键位绑定
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
+" map <Leader>l <Plug>(easymotion-s)
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)
+" map <Leader>h <Plug>(easymotion-S)
 
 " 一些有用的快捷键，但是没做映射
 " open project file tree ---------- alt + 1
@@ -241,10 +249,10 @@ nnoremap <Leader>v mpviw"ap'o'p
 nnoremap <Leader>m :action SelectIn<CR>
 
 " idea内置快捷键control+E (使用快捷键 空格+e)
-nnoremap <Leader>e :action RecentFiles<CR>
+" nnoremap <Leader>e :action RecentFiles<CR>
 
 "生成get set方法  (使用快捷键 空格+cc)
-nnoremap <Leader>cc :action Generate<CR>
+"nnoremap <Leader>cc :action Generate<CR>
 
 " shift+h--zz(向上翻页)(使用快捷键 空格+h)
 " nnoremap <Leader>h <S-h>zz
@@ -258,8 +266,8 @@ nnoremap <Leader>cc :action Generate<CR>
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
 
-#nnoremap <TAB> :action PreviousTab<CR>
-#nnoremap <s-TAB> :action NextTab<CR>
+"nnoremap <TAB> :action PreviousTab<CR>
+"nnoremap <s-TAB> :action NextTab<CR>
 
 nnoremap <c-\> :action SplitVertically<CR>
 nnoremap <c--> :action SplitHorizontally<CR>
@@ -304,16 +312,16 @@ nnoremap <leader>n :action ActivateDebugToolWindow<CR>
 " 	let context_aware=1 进入insert模式时根据上下文判断是否恢复输入法，0禁用，1启用
 " 	注意：仅在set keep-english-in-normal-and-restore-in-insert时有意义
 "
-set keep-english-in-normal
-set nokeep-english-in-normal-and-restore-in-insert
+" set keep-english-in-normal
+" set nokeep-english-in-normal-and-restore-in-insert
 
 " 定义运行快捷键
 nnoremap <leader>r :action Run<CR>
 
 "跳转下个报错处
-noremap <leader>ne :action GotoNextError<CR>
+map <leader>en :action GotoNextError<CR>
 "跳转上个报错处
-noremap <leader>pe :action GotoPreviousError<CR>
+map <leader>ep :action GotoPreviousError<CR>
 "^$符号太难按了
 map gh ^
 map gl $
@@ -351,13 +359,26 @@ nnoremap <leader>o :action FileStructurePopup<CR>
 nnoremap <leader>gx0 :action CloseAllToTheLeft<CR>
 nnoremap <leader>gx$ :action CloseAllToTheRight<CR>
 
+" Git windows
+map <leader>gc <Action>(CheckinProject)
+map <leader>gs <Action>(ActivateVersionControlToolWindow)
+map <leader>gb <Action>(Git.Branches)
+
 " KJump configuration
 nmap <leader>ss :action KJumpAction<cr>
 nmap <leader>dd :action KJumpAction.Word2<cr>
-nmap <leader>ll :action KJumpAction.Line<cr>
+" nmap <leader>ll :action KJumpAction.Line<cr>
 
 set statusline=%<[CFP=%F]%m%r%h%w\ [FMT=%{&fileformat}]\ [TYPE=%Y]\ [%.9b\ 0x%.9B]\ [CWD=%{getcwd()}]\ %=[%l,%c%V\ %p%%\ %P\ %LLs]
 
+
 " 处理关于Ataman快捷键的问题
-nnoremap <leader> :action LeaderAction<cr>
-vnoremap <leader> :action LeaderAction<cr>
+nnoremap <leader>j :action LeaderAction<cr>
+map <leader>as <action>(SearchEverywhere)
+
+" Note that the default <A-n> and g<A-n> shortcuts don't work on Mac due to dead keys.
+" <A-n> is used to enter accented text e.g. ñ
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+nmap g<S-C-n> <Plug>AllOccurrences
+xmap g<S-C-n> <Plug>AllOccurrences
